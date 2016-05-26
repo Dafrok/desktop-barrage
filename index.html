@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello World!</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+  </head>
+  <body>
+    <span><script>document.write(decodeURIComponent(location.search))</script></span>
+    <span>Hello World!</span>
+    <span>We are using io.js <script>document.write(process.version)</script></span>
+    <span>and Electron <script>document.write(process.versions.electron)</script>.</span>
+  </body>
+  <script>
+    var remote = require('electron').remote
+    var currentWindow = remote.getCurrentWindow()
+    window.onload = function () {
+      var style = getComputedStyle(document.body)
+      currentWindow.setSize(parseInt(style.width), parseInt(style.height))
+      currentWindow.setPosition(window.screen.width, Math.random() * window.screen.height | 0)
+
+      var position = currentWindow.getPosition()
+      var x = position[0]
+      var y = position[1]
+    }
+    document.onclick = function (e) {
+      console.log(e.button)
+      if (e.button === 0) {
+        currentWindow.destroy()
+      }
+    }
+  </script>
+</html>

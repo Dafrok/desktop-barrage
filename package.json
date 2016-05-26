@@ -1,0 +1,26 @@
+{
+  "name": "desktop-barrage",
+  "version": "0.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "dev": "./Electron.app/Contents/MacOS/Electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dafrok/desktop-barrage.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dafrok/desktop-barrage/issues"
+  },
+  "homepage": "https://github.com/Dafrok/desktop-barrage#readme",
+  "devDependencies": {
+    "electron": "^0.4.1",
+    "electron-prebuilt": "^1.1.3"
+  },
+  "dependencies": {
+    "remote": "^0.2.6"
+  }
+}

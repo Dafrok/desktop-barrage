@@ -22,6 +22,7 @@
     barrage.innerText = getQueryString('text')
     window.onload = function () {
       var style = getComputedStyle(document.body)
+      console.log(parseInt(style.width), parseInt(style.height))
       currentWindow.setSize(parseInt(style.width), parseInt(style.height))
       currentWindow.go()
     }

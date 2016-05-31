@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Desktop Barrage</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+  </head>
+  <body>
+    <span data-barrage></span>
+  </body>
+  <script>
+    function getQueryString(name) {
+      var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+      var r = window.location.search.substr(1).match(reg);
+      if (r != null) {
+        return unescape(r[2]);
+      }
+      return null;
+    }
+    var remote = require('electron').remote
+    var currentWindow = remote.getCurrentWindow()
+    var barrage = document.querySelector('[data-barrage]')
+    barrage.innerText = getQueryString('text')
+    window.onload = function () {
+      var style = getComputedStyle(document.body)
+      currentWindow.setSize(parseInt(style.width), parseInt(style.height))
+      currentWindow.go()
+    }
+    document.onclick = function (e) {
+      if (e.button === 0) {
+        clearInterval(currentWindow.barrageInterval)
+        currentWindow.stop()
+      }
+    }
+  </script>
+</html>

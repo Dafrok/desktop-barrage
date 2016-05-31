@@ -1,7 +1,7 @@
+var electron = require('electron')
 var {app, BrowserWindow} = require('electron')
 
 var mainWindow = null
-
 
 app.on('window-all-closed', function() {
   if (process.platform != 'darwin') {
@@ -9,55 +9,65 @@ app.on('window-all-closed', function() {
   }
 })
 
-function createBarrage (text) {
-  var newWindow = new BrowserWindow({
-    width: 0,
-    height: 0,
-    x: 0,
-    y: 0,
-    frame: false,
-    useContentSize: true,
-    transparent: true,
-    hidden: true,
-    movable: false,
-  })
-  newWindow.loadURL('file://' + __dirname + '/index.html?text=' + text)
+class Barrage extends BrowserWindow {
+  constructor(options) {
+    super({
+      width: 0,
+      height: 0,
+      acceptFirstMouse: true,
+      frame: false,
+      useContentSize: true,
+      transparent: true,
+      hidden: true,
+      x: options.screenSize.width,
+      y: 0 | options.screenSize.height * Math.random(),
+      // movable: false,
+      // resizable: false,
+      alwaysOnTop: true,
+      enableLargerThanScreen: true,
+      show: false,
+      hidden: true
+    })
+    this.text = options.text
+    this.showInactive()
+    this.loadURL('file://' + __dirname + '/barrage.html?text=' + this.text)
+    this.go = () => {
+      var width = this.getSize()[0]
+      var position = this.getPosition()
+      this.x = position[0]
+      this.y = position[1]
+      this.barrageInterval = setInterval(() => {
+        try {
+          this.setPosition(this.x, this.y)
+          if (this.x < -width) {
+            this.stop()
+          } else {
+            this.x = this.x - 5
+          }
+        } catch (e) {}
 
-  newWindow.on('show', function () {
-    var x = 1344
-    var y = 0 | Math.random() * 768
-    setInterval(function () {
-      newWindow.setPosition(x, y)
-      x = x - 5
-    }, 16.7)
-  })
-  return newWindow
+      }, 16.7)}
+    this.stop = () => {
+      clearInterval(this.barrageInterval)
+      this.destroy()
+    }
+  }
 }
 
 app.on('ready', function() {
-  mainWindow = new BrowserWindow({
-    width: 100,
-    height: 100,
-    frame: false,
-    transparent: true,
-    // fullscreen: true,
-    hidden: true,
-    // resizable: false,
-    movable: false,
-    'use-content-size': true,
-  })
-  // mainWindow.maximize()
+  var electronScreen = electron.screen
+  var size = electronScreen.getPrimaryDisplay().workAreaSize
+  mainWindow = new BrowserWindow()
   mainWindow.loadURL('file://' + __dirname + '/index.html')
-  // mainWindow.openDevTools();
 
   mainWindow.on('closed', function() {
     mainWindow = null
   })
-  createBarrage(233)
-  createBarrage(666)
-  createBarrage(666)
-  createBarrage(666)
-  createBarrage(666)
-  createBarrage(666)
-  createBarrage(666)
+
+  app.createBarrage = function (text) {
+    new Barrage({
+      text: text,
+      screenSize: size
+    })
+  }
 })

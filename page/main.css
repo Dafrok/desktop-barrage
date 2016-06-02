@@ -1,8 +1,8 @@
 * {
     padding: 0;
     margin: 0;
-    -webkit-user-select: none;
-    pointer-events: all;
+    /*-webkit-user-select: none;*/
+    /*pointer-events: all;*/
     text-shadow: 0 0 0 2px white;
 }
 

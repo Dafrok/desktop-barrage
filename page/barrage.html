@@ -17,6 +17,7 @@
       return null;
     }
     var remote = require('electron').remote
+    var shell = require('electron').shell
     var currentWindow = remote.getCurrentWindow()
     var barrage = document.querySelector('[data-barrage]')
     barrage.innerText = getQueryString('text')
@@ -31,6 +32,9 @@
         clearInterval(currentWindow.barrageInterval)
         currentWindow.stop()
       }
+    }
+    document.oncontextmenu = function (e) {
+      shell.openExternal(getQueryString('link'))
     }
   </script>
 </html>

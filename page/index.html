@@ -5,15 +5,20 @@
     <link rel="stylesheet" type="text/css" href="main.css">
   </head>
   <body>
-    <input><button>SEND</button>
+    <input data-text><input data-link><button>SEND</button>
   </body>
   <script>
     var remote = require('electron').remote
     var button = document.querySelector('button')
-    var input = document.querySelector('input')
+    var inputText = document.querySelector('[data-text]')
+    var inputLink = document.querySelector('[data-link]')
     button.onclick = function () {
       console.log(remote)
-      remote.app.createBarrage(input.value)
+      remote.app.createBarrage({
+        text: inputText.value,
+        link: inputLink.value
+      })
     }
+    // setInterval(function () {remote.app.createBarrage()}, 1000)
   </script>
 </html>
